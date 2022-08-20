@@ -1,5 +1,5 @@
 # About
-This package gets pool connections.  
+This package gets mysql pool connections using mysql2/promise.  
 
 # Usage
 This section is not ready.
