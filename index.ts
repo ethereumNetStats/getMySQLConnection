@@ -36,4 +36,4 @@ const getMysqlConnection = (vpn: boolean): Pool => {
 
 
 export {getMysqlConnection}
-export type {mysqlRes, OkPacket, Pool}
+export type {mysqlRes, OkPacket, Pool, RowDataPacket, FieldPacket, ResultSetHeader}
