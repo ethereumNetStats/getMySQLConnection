@@ -1,13 +1,13 @@
 import * as dotenv from "dotenv";
-dotenv.config();
+import type {FieldPacket, OkPacket, Pool, PoolConnection, ResultSetHeader, RowDataPacket} from "mysql2/promise";
 import {createPool} from "mysql2/promise";
 
-import type { Pool, FieldPacket, OkPacket, ResultSetHeader, RowDataPacket} from "mysql2/promise";
+dotenv.config();
 type mysqlRes = [(RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader), FieldPacket[]];
 
 const getMysqlConnection = (vpn: boolean): Pool => {
 
-    let host: string | undefined = '';
+    let host: string | undefined;
 
     if (vpn) {
         host = process.env.MYSQL_VPN_ADDRESS;
@@ -16,8 +16,8 @@ const getMysqlConnection = (vpn: boolean): Pool => {
         host = process.env.MYSQL_LAN_ADDRESS;
     }
 
-//Connect the mysql server via VPN.
-    const pool: Pool = createPool({
+//Connect the mysql server.
+    return createPool({
         waitForConnections: true,
         connectionLimit: 10,
         host: host,
@@ -29,11 +29,9 @@ const getMysqlConnection = (vpn: boolean): Pool => {
         connectTimeout: 30000,
         debug: false,
         timezone: '+00:00',
-    });
-
-    return pool
+    })
 }
 
 
 export {getMysqlConnection}
-export type {mysqlRes, OkPacket, Pool, RowDataPacket, FieldPacket, ResultSetHeader}
+export type {mysqlRes, OkPacket, Pool, RowDataPacket, FieldPacket, ResultSetHeader, PoolConnection}
