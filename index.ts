@@ -19,7 +19,7 @@ const getMysqlConnection = (vpn: boolean): Pool => {
 //Connect the mysql server.
     return createPool({
         waitForConnections: true,
-        connectionLimit: 10,
+        connectionLimit: 100,
         host: host,
         port: Number(process.env.MYSQL_PORT),
         user: process.env.MYSQL_USER,

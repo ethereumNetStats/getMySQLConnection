@@ -1,6 +1,6 @@
 {
   "name": "@pierogi.dev/get_mysql_connection",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
@@ -13,11 +13,11 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@types/node": "^18.7.6",
-    "typescript": "^4.7.4"
+    "@types/node": "^18.11.8",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.3",
     "mysql2": "^2.3.3"
   }
 }
