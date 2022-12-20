@@ -1,5 +1,5 @@
 {
-  "name": "@pierogi.dev/get_mysql_connection",
+  "name": "@ethereum_net_stats/get_mysql_connection",
   "version": "1.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
