@@ -1,6 +1,6 @@
 {
   "name": "@ethereum_net_stats/get_mysql_connection",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
