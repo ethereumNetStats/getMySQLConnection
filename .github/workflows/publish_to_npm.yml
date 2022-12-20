@@ -2,7 +2,7 @@ name: Publish To npm
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 jobs:
   publish-to-npm:
@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-          scope       : '@pierogi.dev/get_mysql_connection'
+          scope       : '@ethereum_net_stats'
           always-auth : true
         env :
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
