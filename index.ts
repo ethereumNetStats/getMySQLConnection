@@ -9,6 +9,7 @@ const getMysqlConnection = (vpn: boolean): Pool => {
 
     let host: string | undefined;
 
+    //Swich connections between vpn and lan
     if (vpn) {
         host = process.env.MYSQL_VPN_ADDRESS;
     }
@@ -24,14 +25,13 @@ const getMysqlConnection = (vpn: boolean): Pool => {
         port: Number(process.env.MYSQL_PORT),
         user: process.env.MYSQL_USER,
         password: process.env.MYSQL_PASS,
-        database: 'ethereum',
+        database: process.env.DATABASE,
         multipleStatements: true,
         connectTimeout: 30000,
         debug: false,
         timezone: '+00:00',
     })
 }
-
 
 export {getMysqlConnection}
 export type {mysqlRes, OkPacket, Pool, RowDataPacket, FieldPacket, ResultSetHeader, PoolConnection}
