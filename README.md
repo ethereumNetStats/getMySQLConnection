@@ -15,7 +15,7 @@ Then import the package and define a pool connection like below.
 ```typescript
 import {getMysqlConnection} from "@pierogi.dev/get_mysql_connection";
 import type {Pool} from "@pierogi.dev/get_mysql_connection";
-const pool: Pool = await getMysqlConnection(false);
+const pool: Pool = await getMysqlConnection(false); //true to use MYSQL_VPN_ADDRESS
 ```
 These addresses are only used according to the arguments of `getMysqlConnections()`.
 Thus, if your hosted MySQL server allows regular connections and VPN connections,
