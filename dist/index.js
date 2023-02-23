@@ -29,23 +29,27 @@ const promise_1 = require("mysql2/promise");
 dotenv.config();
 const getMysqlConnection = (vpn, docker = false) => {
     let host;
-    if (vpn === true && docker === false) {
+    let port;
+    if (vpn && !docker) {
         host = process.env.MYSQL_VPN_ADDRESS;
+        port = Number(process.env.MYSQL_PORT);
     }
-    else if (vpn === false && docker === false) {
+    else if (!vpn && !docker) {
         host = process.env.MYSQL_LAN_ADDRESS;
+        port = Number(process.env.MYSQL_PORT);
     }
-    else if (vpn === false && docker === true) {
+    else if (!vpn && docker) {
         host = process.env.MYSQL_DOCKER_ADDRESS;
+        port = Number(process.env.MYDQL_DOCKER_PORT);
     }
-    else if (vpn === true && docker === true) {
+    else if (vpn && docker) {
         throw new Error("VPN and docker cannot be used at the same time.");
     }
     return (0, promise_1.createPool)({
         waitForConnections: true,
         connectionLimit: 100,
         host: host,
-        port: Number(process.env.MYSQL_PORT),
+        port: port,
         user: process.env.MYSQL_USER,
         password: process.env.MYSQL_PASS,
         database: process.env.DATABASE,

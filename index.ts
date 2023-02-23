@@ -8,14 +8,18 @@ type mysqlRes = [(RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | 
 const getMysqlConnection = (vpn: boolean, docker: boolean = false): Pool => {
 
     let host: string | undefined;
+    let port: number | undefined;
 
     //Select connections between vpn, lan, docker according to the arguments.
     if (vpn && !docker) {
         host = process.env.MYSQL_VPN_ADDRESS;
+        port = Number(process.env.MYSQL_PORT);
     } else if (!vpn && !docker) {
         host = process.env.MYSQL_LAN_ADDRESS;
+        port = Number(process.env.MYSQL_PORT);
     } else if (!vpn && docker) {
         host = process.env.MYSQL_DOCKER_ADDRESS;
+        port = Number(process.env.MYDQL_DOCKER_PORT);
     } else if (vpn && docker) {
         throw new Error("VPN and docker cannot be used at the same time.");
     }
@@ -25,7 +29,7 @@ const getMysqlConnection = (vpn: boolean, docker: boolean = false): Pool => {
         waitForConnections: true,
         connectionLimit: 100,
         host: host,
-        port: Number(process.env.MYSQL_PORT),
+        port: port,
         user: process.env.MYSQL_USER,
         password: process.env.MYSQL_PASS,
         database: process.env.DATABASE,
