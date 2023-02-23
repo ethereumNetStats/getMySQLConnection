@@ -25,29 +25,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMysqlConnection = void 0;
 const dotenv = __importStar(require("dotenv"));
-dotenv.config();
 const promise_1 = require("mysql2/promise");
-const getMysqlConnection = (vpn) => {
-    let host = '';
-    if (vpn) {
+dotenv.config();
+const getMysqlConnection = (vpn, docker = false) => {
+    let host;
+    if (vpn === true && docker === false) {
         host = process.env.MYSQL_VPN_ADDRESS;
     }
-    else {
+    else if (vpn === false && docker === false) {
         host = process.env.MYSQL_LAN_ADDRESS;
     }
-    const pool = (0, promise_1.createPool)({
+    else if (vpn === false && docker === true) {
+        host = process.env.MYSQL_DOCKER_ADDRESS;
+    }
+    else if (vpn === true && docker === true) {
+        throw new Error("VPN and docker cannot be used at the same time.");
+    }
+    return (0, promise_1.createPool)({
         waitForConnections: true,
-        connectionLimit: 10,
+        connectionLimit: 100,
         host: host,
         port: Number(process.env.MYSQL_PORT),
         user: process.env.MYSQL_USER,
         password: process.env.MYSQL_PASS,
-        database: 'ethereum',
+        database: process.env.DATABASE,
         multipleStatements: true,
         connectTimeout: 30000,
         debug: false,
         timezone: '+00:00',
     });
-    return pool;
 };
 exports.getMysqlConnection = getMysqlConnection;

@@ -6,6 +6,7 @@ Make a new file `.env` like `.envSample` on the same directory with index.ts lik
 ```shell
 MYSQL_VPN_ADDRESS=123.123.123.123
 MYSQL_LAN_ADDRESS=64.64.64.64
+MYSQL_LAN_ADDRESS=5.5.5.5
 MYSQL_PORT=1234
 MYSQL_USER=alice
 MYSQL_PASS=password
@@ -15,12 +16,20 @@ Then import the package and define a pool connection like below.
 ```typescript
 import {getMysqlConnection} from "@pierogi.dev/get_mysql_connection";
 import type {Pool} from "@pierogi.dev/get_mysql_connection";
-const pool: Pool = await getMysqlConnection(false); //true to use MYSQL_VPN_ADDRESS
+const pool: Pool = await getMysqlConnection(false); //true to use MYSQL_VPN_ADDRESS.
 ```
+If you want to use a docker network, you can use the below.
+```typescript
+// If you want to use a docker network, set the second argument to true and the first argument to false.
+const pool: Pool = await getMysqlConnection(false, true);
+// If you set both arguments to true, the process will throw an error.
+const pool2: Pool = await getMysqlConnection(true, true); // This will throw an error.
+```
+
 These addresses are only used according to the arguments of `getMysqlConnections()`.
 Thus, if your hosted MySQL server allows regular connections and VPN connections,
-you can set the VPN address to `MYSQL_VPN_ADDRESS` and the regular address to `MYSQL_LAN_ADDRESS`
-to switch these connections with the above arguments.
+you can set the VPN address to `MYSQL_VPN_ADDRESS`, the regular address to `MYSQL_LAN_ADDRESS`
+and the docker network address to `MYSQL_DOCKER_ADDRESS` to switch these connections with the above arguments.
 
 So you can do querying like below.
 ```typescript

@@ -5,16 +5,19 @@ import {createPool} from "mysql2/promise";
 dotenv.config();
 type mysqlRes = [(RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader), FieldPacket[]];
 
-const getMysqlConnection = (vpn: boolean): Pool => {
+const getMysqlConnection = (vpn: boolean, docker: boolean = false): Pool => {
 
     let host: string | undefined;
 
-    //Swich connections between vpn and lan
-    if (vpn) {
+    //Select connections between vpn, lan, docker according to the arguments.
+    if (vpn && !docker) {
         host = process.env.MYSQL_VPN_ADDRESS;
-    }
-    else {
+    } else if (!vpn && !docker) {
         host = process.env.MYSQL_LAN_ADDRESS;
+    } else if (!vpn && docker) {
+        host = process.env.MYSQL_DOCKER_ADDRESS;
+    } else if (vpn && docker) {
+        throw new Error("VPN and docker cannot be used at the same time.");
     }
 
 //Connect the mysql server.
